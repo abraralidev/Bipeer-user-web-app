@@ -290,4 +290,15 @@ const endPoints = {
     url: "/admin/shops/location",
 
   },
+  GET_CUSTOMER_PROFILE: {
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+    url: "/customer/getprofile",
+
+  },
+  UPDATE_CUSTOMER_PROFILE: {
+    method: "POST",
+    prefix: BASE_URLS.AUTH,
+    url: "/customer/updateprofile",
+  },
 };

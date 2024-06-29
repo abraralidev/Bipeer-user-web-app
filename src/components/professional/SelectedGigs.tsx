@@ -29,7 +29,7 @@ const SelectedGigs = ({ title }: SelectedGigsProps) => {
         {
             breakpoint: 2500,
             settings: {
-                slidesToShow: 4,
+                slidesToShow: 5,
                 // slidesToScroll: 1,
                 dots: true,
             },
@@ -37,7 +37,7 @@ const SelectedGigs = ({ title }: SelectedGigsProps) => {
         {
             breakpoint: 1500,
             settings: {
-                slidesToShow: 4,
+                slidesToShow: 5,
                 // slidesToScroll: 1,
                 dots: false,
             },
@@ -45,7 +45,7 @@ const SelectedGigs = ({ title }: SelectedGigsProps) => {
         {
             breakpoint: 1200,
             settings: {
-                slidesToShow: 4,
+                slidesToShow: 5,
                 // slidesToScroll: 1,
                 dots: true,
             },

@@ -7,7 +7,7 @@ const SellerCard = ({ professional }: { professional: Professional }) => {
     const router = useRouter()
 
     return (
-        <div style={{minHeight:'235px'}} className='shadow-md rounded-2xl flex justify-center min-h-max items-center cursor-pointer py-10 flex-col'
+        <div style={{minHeight:'240px'}} className='shadow-md m-4 rounded-2xl flex justify-center items-center cursor-pointer py-10 flex-col'
 
             onClick={() => router.push(`/professional/profile/${professional.id}`)}>
             <Avatar

@@ -108,8 +108,8 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.name}
         </Typography>
         <Box>
-          <Rating name="size-small" defaultValue={3} size="small" />
-          <Typography>(20 reviews)</Typography>
+          <Rating name="size-small" defaultValue={product.rating} size="small" />
+          <Typography>({product.ProductRating.length}) reviews</Typography>
         </Box>
         <div className="flex items-center space-x-3">
           <Typography className="text-[#DB4444] font-semibold ">

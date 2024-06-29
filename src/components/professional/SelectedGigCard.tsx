@@ -19,7 +19,7 @@ const SelectedGigCard = ({ service }: { service: Service }) => {
         alt={service.title}
         width={200}
         height={150}
-        className="w-full rounded-2xl h-[26vh] "
+        className="w-full object-contain rounded-2xl h-[15rem] "
       />
       <div className="py-4 px-4">
         <div className="flex  items-center space-x-1">

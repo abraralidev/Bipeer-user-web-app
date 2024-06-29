@@ -253,29 +253,7 @@ export default function ProductDetails() {
           Add to Cart
         </Button>
       </div> */}
-      <div className="mt-3">
-        <Tabs
-          value={value}
-          onChange={(_, val) => setValue(val)}
-          sx={{ width: "100%", display: "flex", justifyContent: "center" }}
-        >
-          <Tab label="Description" value={0} sx={{ width: "33%" }} />
-          <Tab label="FAQS" value={1} sx={{ width: "33%" }} />
-          <Tab label="Reviews" value={2} sx={{ width: "33%" }} />
-        </Tabs>
-
-        <Typography mt={2}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores sint
-          sed molestiae cumque mollitia nihil at deserunt quo pariatur facilis
-          atque, magni quaerat rerum placeat numquam iste ut repellat? Autem
-          explicabo laudantium molestiae assumenda! Consectetur aperiam quidem
-          quibusdam quas amet dolor rem nulla rerum architecto perspiciatis
-          cupiditate quia similique fuga ipsum, est debitis ex laboriosam at
-          eligendi. Sequi quia consequuntur rerum dolore hic, dignissimos sit
-          neque eum distinctio, odio sapiente earum? Voluptas, earum. Vero,
-          iusto incidunt. Alias modi excepturi facilis!
-        </Typography>
-      </div>
+      
 
       <SelectedGigs title="Related Services" />
     </div>

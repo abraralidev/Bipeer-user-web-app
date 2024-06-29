@@ -41,7 +41,10 @@ const Footer = () => {
       <div>
         <FooterHeading title="Account" />
         <div className="my-4 flex flex-col">
+          <Link href={'/UserAccount'}>
+          
           <FooterText title="My Account" />
+          </Link>
           <Link href={'/auth/sign-in'}>
           
           <FooterText title="Login" />

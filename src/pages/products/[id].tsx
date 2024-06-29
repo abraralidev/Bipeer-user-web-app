@@ -14,6 +14,7 @@ import { Button, Rating } from "@mui/material";
 import Image from "next/image";
 import RootLayout from "../layout";
 import CartButton from "@/components/product/CartButton";
+import ProductReivew from "@/components/product/ProductReivew";
 
 
 const currencyVal = "$";
@@ -151,6 +152,7 @@ export default function ProductDetails({ product }: { product: Product }) {
           </div>
         </div>
       </div>
+      <ProductReivew />
       <ProductsCarousel title="Related Items" />
     </div>
   );
