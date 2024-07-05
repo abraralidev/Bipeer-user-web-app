@@ -25,11 +25,9 @@ const ProductReviewCard = ({ name, rating, key, review }: any) => {
                 ({rating})
             </Typography>
         <Rating
-          name="simple-controlled"
+          name="read-only"
+          readOnly
           value={rating}    
-        //   onChange={(event, newValue) => {
-        //     setValue(newValue);
-        //   }}
         />
         </Box>
         

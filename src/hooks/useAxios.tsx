@@ -84,9 +84,9 @@ export function useAxios<R = any, P = any>(
         //   Authorization: `token=${session.data?.backendToken?.token}`,
         //   // Cookie: `token=${session.data?.backendToken?.token}`,
         // },
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': `Bearer ${session.data?.backendToken?.token}`
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.data?.backendToken?.token}`,
         },
       }),
     })
@@ -284,21 +284,40 @@ const endPoints = {
       // token: `${session.data?.backendToken?.token}`,
     },
   },
+  GET_ALL_TICKETS: {
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+    url: "/ticket/customer/all",
+    headers: {
+      "Content-Type": "application/json",
+      // token: `${session.data?.backendToken?.token}`,
+    },
+  },
   GET_SHOPS: {
     method: "GET",
     prefix: BASE_URLS.AUTH,
     url: "/admin/shops/location",
-
   },
   GET_CUSTOMER_PROFILE: {
     method: "GET",
     prefix: BASE_URLS.AUTH,
     url: "/customer/getprofile",
-
   },
   UPDATE_CUSTOMER_PROFILE: {
     method: "POST",
     prefix: BASE_URLS.AUTH,
     url: "/customer/updateprofile",
+  },
+
+  GET_PRODUCT_REVIEWS: {
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+    url: "/product/getAllReviews/{id}",
+  },
+
+  GET_SERVICE_REVIEWS: {
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+    url: "/service/search/getAllReviews/{id}",
   },
 };

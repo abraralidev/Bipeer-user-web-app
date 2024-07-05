@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,11 +12,39 @@ import {
 import Image from "next/image";
 import SelectedGigs from "@/components/professional/SelectedGigs";
 import ProfessionalLayout from "./layout";
+import ProfessionalReview from "@/components/professional/ProfessionalReview";
+import { useAxios } from "@/hooks/useAxios";
+import { useParams } from "next/navigation";
 
 const currencyVal = "$";
 
 export default function ProductDetails() {
   const [value, setValue] = useState(0);
+  const [reviews, setReviews] = useState(0);
+
+  const { makeRequest: getServiceReviews } = useAxios(
+    "GET_SERVICE_REVIEWS");
+
+  const params = useParams();
+  const serviceID = params?.id;
+
+  useEffect(() => {
+    getServiceReviews(
+      (res) => {
+        console.log(res.result?.ServiceRating);
+        setReviews(res.result?.ServiceRating);
+      },
+      (err) => {
+        console.log(err);
+      },
+      {
+        params: {
+          id: String(serviceID),
+        },
+      }
+    );
+    getServiceReviews()
+  }, [serviceID]);
   return (
     <div className=" my-4 md:px-44 px-3">
       <Grid  container mb={3} >
@@ -253,6 +281,7 @@ export default function ProductDetails() {
           Add to Cart
         </Button>
       </div> */}
+      <ProfessionalReview reviews={reviews}/>
       
 
       <SelectedGigs title="Related Services" />

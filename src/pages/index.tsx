@@ -8,10 +8,8 @@ import React, { useEffect } from "react";
 import RootLayout from "./layout";
 import { Box } from "@mui/material";
 
-import { collection, addDoc } from "firebase/firestore";
-
-const index = () => {
-
+const Index = () => {
+  // const { t } = initTranslations(locale, ["home"]);
 
   return (
     <>
@@ -33,6 +31,9 @@ const index = () => {
   );
 };
 
-index.getLayout = (page: React.ReactElement) => <RootLayout>{page}</RootLayout>;
+Index.getLayout = (page: React.ReactElement) => <RootLayout>{page}</RootLayout>;
 
-export default index;
+export default Index;
+function initTranslations(arg0: string): { t: any } {
+  throw new Error("Function not implemented.");
+}

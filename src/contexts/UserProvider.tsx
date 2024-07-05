@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Define the user object shape
 interface User {
@@ -15,10 +15,12 @@ interface User {
   createdAt: string;
   updatedAt: string;
   City: string | null;
-  token:string | null;
+  token: string | null;
 }
 
 interface UserContextType {
+  id: any;
+  name: any;
   user: User;
 }
 
@@ -37,8 +39,8 @@ const defaultUser: UserContextType = {
     createdAt: "",
     updatedAt: "",
     City: null,
-    token: null
-  }
+    token: null,
+  },
 };
 
 // Define the context type
@@ -65,7 +67,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

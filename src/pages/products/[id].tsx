@@ -15,13 +15,42 @@ import Image from "next/image";
 import RootLayout from "../layout";
 import CartButton from "@/components/product/CartButton";
 import ProductReivew from "@/components/product/ProductReivew";
-
+import { useParams } from "next/navigation";
+import { useAxios } from "@/hooks/useAxios";
 
 const currencyVal = "$";
 
 export default function ProductDetails({ product }: { product: Product }) {
   const [activeColor, setActiveColor] = useState("");
   const [activeSize, setActiveSize] = useState("");
+  const [reviews, setReviews] = useState([]);
+  const { makeRequest: getProductReviews } = useAxios(
+    "GET_PRODUCT_REVIEWS");
+
+  const params = useParams();
+  const productID = params.id;
+
+  useEffect(() => {
+    getProductReviews(
+      (res) => {
+        console.log(res.result?.ProductRating);
+        setReviews(res.result?.ProductRating);
+      },
+      (err) => {
+        console.log(err);
+      },
+      {
+        params: {
+          id: String(productID),
+        },
+      }
+    );
+    getProductReviews()
+  }, [productID]);
+
+
+
+  // const product
 
   return (
     <div className="md:my-24 my-4 md:px-12 px-3">
@@ -152,7 +181,7 @@ export default function ProductDetails({ product }: { product: Product }) {
           </div>
         </div>
       </div>
-      <ProductReivew />
+      <ProductReivew reviews={reviews} />
       <ProductsCarousel title="Related Items" />
     </div>
   );

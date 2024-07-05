@@ -21,6 +21,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { Category } from "@/api/Category";
 import { useForm } from "react-hook-form";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import GoogleTranslateButton from "../GoogleTranslateBtn";
 
 const Navbar = () => {
   const { status } = useSession();
@@ -289,7 +290,7 @@ const Navbar = () => {
               alignItems={"center"}
               gap={"10px"}
             >
-              <CiHeart fontSize={"24px"} className="hidden md:flex" />
+              {/* <CiHeart fontSize={"24px"} className="hidden md:flex" />s */}
               <Badge badgeContent={state.cart.length} color="primary">
                 <CiShoppingCart
                   fontSize={"26px"}
@@ -311,6 +312,9 @@ const Navbar = () => {
                   <PermIdentityIcon />
                 </IconButton>
               )}
+
+              <GoogleTranslateButton />
+              <div id="google_translate_element"></div>
 
               <Menu
                 id="menu-appbar"

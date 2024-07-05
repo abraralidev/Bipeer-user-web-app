@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/api/axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { GetServerSideProps } from "next";
 import { Product } from "@/api/Product";
@@ -12,6 +12,8 @@ import { Vendor } from "@/api/User";
 import BrandDisplayCard from "@/components/shared/BrandDisplayCard";
 import { Grid, ListItem, ListItemText, Typography } from "@mui/material";
 import { useAxios } from "@/hooks/useAxios";
+import VendorReviews from "@/components/vendor/VendorReviews";
+import { useParams } from "next/navigation";
 
 export default function VendorDetails({
   vendor,
@@ -25,6 +27,32 @@ export default function VendorDetails({
 {
     const categories = useAxios("CATEGORY_BY_VENDOR", true);
     console.log(categories);
+
+    const [reviews, setReviews] = useState(0);
+
+    const { makeRequest: getServiceReviews } = useAxios(
+      "GET_SERVICE_REVIEWS");
+  
+    const params = useParams();
+    const vendorID = params?.id;
+  
+    useEffect(() => {
+      getServiceReviews(
+        (res) => {
+          console.log(res.result?.VendorRating);
+          setReviews(res.result?.VendorRating);
+        },
+        (err) => {
+          console.log(err);
+        },
+        {
+          params: {
+            id: String(vendorID),
+          },
+        }
+      );
+      getServiceReviews()
+    }, [vendorID]);
     
   return (
     <div>
@@ -50,6 +78,7 @@ export default function VendorDetails({
             />
           </Grid>
         </Grid>
+        <VendorReviews reviews={[]}/>
       </div>
     </div>
   );

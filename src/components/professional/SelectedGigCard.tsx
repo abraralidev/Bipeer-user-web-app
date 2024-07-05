@@ -11,7 +11,7 @@ const SelectedGigCard = ({ service }: { service: Service }) => {
   return (
     <div
       onClick={() => router.push(`/professional/${service.id}`)}
-      style={{minHeight:'320px'}}
+      style={{ minHeight: "320px" }}
       className="w-[95%] mx-2 mb-8 cursor-pointer shadow-md  rounded-2xl"
     >
       <Image
@@ -31,9 +31,15 @@ const SelectedGigCard = ({ service }: { service: Service }) => {
             src={service.Professional?.photoLogo ?? service.photoLogo}
             alt={service.Professional?.name ?? service.name}
           >
-            {service.Professional?.name[0].toUpperCase() ?? service.name.toUpperCase()}
+            {service.Professional?.name[0].toUpperCase() ??
+              service.name.toUpperCase()}
           </Avatar>
-          <Typography variant="subtitle1" sx={{textWrap:'nowrap', overflow:'hidden'}} fontSize={'13px'} fontWeight={400}>
+          <Typography
+            variant="subtitle1"
+            sx={{ textWrap: "nowrap", overflow: "hidden" }}
+            fontSize={"13px"}
+            fontWeight={400}
+          >
             {service.Professional?.name ?? service.name}
           </Typography>
         </div>
@@ -41,7 +47,7 @@ const SelectedGigCard = ({ service }: { service: Service }) => {
           {service.title}{" "}
         </Typography>
         <div className="flex mt-3 items-center">
-        <Rating  defaultValue={4} size="small" />
+          <Rating defaultValue={4} size="small" />
           <Typography color="gray">({service.rating})</Typography>
         </div>
         <div className="flex items-center mt-auto justify-between">

@@ -4,9 +4,9 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import ProductReviewCarousel from "./ProductReviewCarousel";
+import ProductReviewCarousel from "../product/ProductReviewCarousel";
 
-const ProductReview = ({reviews}) => {
+const VendorReviews = ({reviews} : any) => {
   const [value, setValue] = useState("1"); // Initial value should match the value of the default TabPanel
 
   const handleChange = (event, newValue) => {
@@ -35,4 +35,4 @@ const ProductReview = ({reviews}) => {
   );
 };
 
-export default ProductReview;
+export default VendorReviews;

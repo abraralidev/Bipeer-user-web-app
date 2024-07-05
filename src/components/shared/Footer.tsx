@@ -41,25 +41,24 @@ const Footer = () => {
       <div>
         <FooterHeading title="Account" />
         <div className="my-4 flex flex-col">
-          <Link href={'/UserAccount'}>
-          
-          <FooterText title="My Account" />
+          <Link href={"/UserAccount"}>
+            <FooterText title="My Account" />
           </Link>
-          <Link href={'/auth/sign-in'}>
-          
-          <FooterText title="Login" />
+          <Link href={"/auth/sign-in"}>
+            <FooterText title="Login" />
           </Link>
 
-          <Link href={'/auth/sign-up'}>
-          
-          <FooterText title="Register" />
+          <Link href={"/auth/sign-up"}>
+            <FooterText title="Register" />
           </Link>
-          <Link href={'/cart'}>
-          
-          <FooterText title="Cart" />
+          <Link href={"/cart"}>
+            <FooterText title="Cart" />
           </Link>
           <Link href={"/ticket/CreateTicket"}>
             <FooterText title="Report an Issue" />
+          </Link>
+          <Link href={"/ticket/AllTickets"}>
+            <FooterText title="Your Tickets" />
           </Link>
         </div>
       </div>
