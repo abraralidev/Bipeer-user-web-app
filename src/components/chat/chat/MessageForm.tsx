@@ -4,7 +4,13 @@ import { IoCameraOutline, IoSendOutline } from "react-icons/io5";
 import { useForm, Controller } from "react-hook-form";
 import { useUser } from "@/contexts/UserProvider";
 import { fireBaseDB } from "@/firebase";
-import { collection, serverTimestamp, addDoc } from "firebase/firestore";
+import {
+  collection,
+  serverTimestamp,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { useMessagesContext } from "@/contexts/ChatMessagesProvider";
 
 const MessageForm = () => {
@@ -23,6 +29,14 @@ const MessageForm = () => {
         "messages"
       );
 
+      const usersCollectionRef2 = doc(
+        fireBaseDB,
+        "chats",
+        vendorId,
+        "users",
+        userId
+      );
+
       const newMessage = {
         imageUrl: messageData.imageUrl || "",
         isRead: messageData.isRead || false,
@@ -32,9 +46,21 @@ const MessageForm = () => {
         timestamp: serverTimestamp(),
       };
 
+      const chatDocument = {
+        lastMessage: messageData.message,
+        lastMessageTimestamp: serverTimestamp(),
+        timestamp: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        userId: messageData.senderId,
+        userName: messageData.senderName,
+        // userUnreadCount: 0,
+        // vendorUnreadCount: 2
+      };
+
       const docRef = await addDoc(usersCollectionRef, newMessage);
+      const docRef2 = await updateDoc(usersCollectionRef2, chatDocument);
       console.log("Message written with ID: ", docRef.id);
-      addMessage(newMessage);
+      // addMessage(newMessage);
     } catch (error) {
       console.error("Error adding message: ", error);
       throw new Error("Failed to create message");
@@ -73,6 +99,7 @@ const MessageForm = () => {
             {...field}
             fullWidth
             size="small"
+            required
             placeholder="Type your message here"
           />
         )}

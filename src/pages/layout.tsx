@@ -5,7 +5,6 @@ import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 import { signOut } from "next-auth/react";
 import Cookies from "js-cookie";
 import { useSession } from "next-auth/react";
@@ -31,21 +30,6 @@ export default function RootLayout({
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        // transition: Bounce,
-      />
-      {/* Same as */}
-      <ToastContainer />
       <main>
         {/* Box only visible on mobile screens */}
         <div className={`md:hidden ${showAppDownload ? "block" : "hidden"}`}>

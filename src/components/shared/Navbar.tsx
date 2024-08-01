@@ -22,10 +22,12 @@ import { Category } from "@/api/Category";
 import { useForm } from "react-hook-form";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import GoogleTranslateButton from "../GoogleTranslateBtn";
+import { useFavorites } from "@/contexts/FavouritesProvider";
 
 const Navbar = () => {
   const { status } = useSession();
   const { state } = useCart();
+  const { state: fav } = useFavorites();
   const router = useRouter();
   const categories = useAxios("CATEGORIES", true);
   console.log(categories);
@@ -164,26 +166,6 @@ const Navbar = () => {
                       </Button>
                     </InputAdornment>
                   ),
-                  // endAdornment: (
-                  //   <InputAdornment
-                  //     className="!hidden lg:!block"
-                  //     position="end"
-                  //     style={{ position: "relative", top: "-11" }}
-                  //   >
-                  //     <select
-                  //       {...register("category")}
-                  //       style={{ position: "relative", top: "-10px" }}
-                  //       className="md:pl-[9px] border-l md:w-auto w-4 border-l-gray-400 focus:outline-none cursor-pointer"
-                  //     >
-                  //       <option>All Categories</option>
-                  //       {categories.data?.result?.map((category: Category) => (
-                  //         <option key={category.id} value={category.id}>
-                  //           {category.name}
-                  //         </option>
-                  //       ))}
-                  //     </select>
-                  //   </InputAdornment>
-                  // ),
                 }}
               />
             </form>
@@ -290,7 +272,15 @@ const Navbar = () => {
               alignItems={"center"}
               gap={"10px"}
             >
-              {/* <CiHeart fontSize={"24px"} className="hidden md:flex" />s */}
+              <Badge badgeContent={fav.favorites.length} color="primary">
+                <CiHeart
+                  fontSize={"26px"}
+                  onClick={() => {
+                    router.push("/favourite");
+                  }}
+                  className="cursor-pointer"
+                />
+              </Badge>
               <Badge badgeContent={state.cart.length} color="primary">
                 <CiShoppingCart
                   fontSize={"26px"}
@@ -312,10 +302,8 @@ const Navbar = () => {
                   <PermIdentityIcon />
                 </IconButton>
               )}
-
-              <GoogleTranslateButton />
-              <div id="google_translate_element"></div>
-
+              {/* <GoogleTranslateButton />
+              <div id="google_translate_element"></div> */}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -332,6 +320,7 @@ const Navbar = () => {
                 onClose={handleMenuClose}
               >
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                {/* <MenuItem >{user.name}</MenuItem> */}
               </Menu>
               {/* <NavbarMenu /> */}
             </Box>

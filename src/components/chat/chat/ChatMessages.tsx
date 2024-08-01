@@ -23,7 +23,7 @@ const ChatMessages = () => {
     <div
       ref={messagesContainerRef}
       style={{ background: "#00000008", scrollBehavior: "smooth" }}
-      className="overflow-y-scroll h-[50vh] space-y-3 px-4 py-3"
+      className="overflow-y-scroll h-[52.2vh] space-y-3 px-4 py-3"
     >
       {messages.length > 0 &&
         messages.map((item) => (

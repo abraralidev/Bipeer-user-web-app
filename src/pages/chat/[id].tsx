@@ -6,22 +6,65 @@ import { List } from "@mui/material";
 import UserMessageHeader from "@/components/chat/UserMessageHeader";
 import { useUser } from "@/contexts/UserProvider";
 import { useAxios } from "@/hooks/useAxios";
-import { getDocs, collection, doc, setDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  doc,
+  setDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { fireBaseDB } from "../../firebase";
+import { useParams } from "next/navigation";
+import { useMessagesContext } from "@/contexts/ChatMessagesProvider";
+import fetchMessages from "../../components/chat/UserMessage";
 
-const Chat = () => {
+const ChatByVendor = () => {
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log("🚀 ~ Chat ~ selectedUser:", selectedUser);
+  const params = useParams();
+  const { setVendorId, vendorId, updateMessages, setVendorName } =
+    useMessagesContext();
+
   const [CustomerChatWithVendor, setCustomerChatWithVendor] = useState([]);
-  console.log("🚀 ~ Chat ~ CustomerChatWithVendor:", CustomerChatWithVendor);
   const { data } = useAxios("CURRENT_PROFILE", true);
-  const { user, setUser } = useUser();
+  const [loading, setLoading] = useState(true);
+  const { setUser } = useUser();
   setUser(data.customer);
 
-  console.log("user is data", data);
-
   const customerID = data?.customer?.id;
-  console.log("🚀 ~ Chat ~ customerID:", customerID);
+  const vendorIDinParams = params?.id;
+  setVendorId(vendorIDinParams as string);
+
+  const fetchMessages = (vendorId, userId) => {
+    try {
+      const messagesCollectionRef = collection(
+        fireBaseDB,
+        "chats",
+        vendorId,
+        "users",
+        userId,
+        "messages"
+      );
+      const q = query(messagesCollectionRef, orderBy("timestamp"));
+
+      return onSnapshot(q, (querySnapshot) => {
+        const messages: any = [];
+        querySnapshot.forEach((doc) => {
+          messages.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+
+        console.log("🚀 ~ fetchMessages ~ messages:", messages);
+        // setVendorName(item.vendorName);
+        updateMessages(messages);
+      });
+    } catch (err) {
+      console.log("🚀 ~ fetchMessages ~ err:", err);
+    }
+  };
 
   const fetchVendorChats = async (customerID) => {
     try {
@@ -56,23 +99,34 @@ const Chat = () => {
         }
       }
 
-      console.log("🚀 ~ fetchVendorChats ~ chatList:", chatList);
       setCustomerChatWithVendor(chatList);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching chats with subcollections:", error);
+      setLoading(false);
     }
   };
 
   const handleUserSelect = (user) => {
     setSelectedUser(user);
     // Perform logging or display messages related to the selected user
-    console.log("Selected user:", user);
     // You can add logic here to display messages associated with the selected user
   };
 
   useEffect(() => {
     fetchVendorChats(customerID);
-  }, [customerID]);
+    fetchMessages(vendorIDinParams, customerID);
+    // console.log("🚀 ~ ChatByVendor ~ params:", vendorId);
+  }, [customerID, vendorIDinParams]);
+
+  //   useEffect(() => {
+  //     console.log(
+  //       "🚀 ~ ChatByVendor ~ params: in the use effect 888888888888888",
+  //       vendorId
+  //     );
+
+  //     fetchMessages(vendorIDinParams, customerID);
+  //   }, [vendorIDinParams, vendorId]);
 
   return (
     <div className="grid grid-cols-3 md:mb-16 my-3 md:pl-12 pl-2 gap-4 md:pr-4 pr-2">
@@ -83,16 +137,19 @@ const Chat = () => {
             chats={CustomerChatWithVendor}
             onUserSelect={handleUserSelect}
             customerID={customerID}
+            isChatLoading={loading}
           />
         </List>
       </div>
-      <div className="hidden md:block col-span-2 shadow-sm rounded-md">
+      <div className="md:block col-span-3 md:col-span-2 shadow-sm rounded-md">
         <UserChat />
       </div>
     </div>
   );
 };
 
-Chat.getLayout = (page: React.ReactElement) => <RootLayout>{page}</RootLayout>;
+ChatByVendor.getLayout = (page: React.ReactElement) => (
+  <RootLayout>{page}</RootLayout>
+);
 
-export default Chat;
+export default ChatByVendor;

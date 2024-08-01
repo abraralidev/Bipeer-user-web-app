@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
-
-// import {useToast} from 'native-base';
+import { useEffect, useMemo, useState } from "react";
 import { axiosInstance } from "@/api/axios";
 import { AxiosRequestConfig } from "axios";
 import { signOut, useSession } from "next-auth/react";
-// import {useAuth} from '.';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -36,16 +33,14 @@ interface Payload<P> {
 export function useAxios<R = any, P = any>(
   endpoint: keyof typeof endPoints,
   runOnMount = false,
-  payload?: Payload<P>
+  payload?: Payload<P>,
+  additionalDependencies: any[] = []
 ): useAxiosReturnType<P, R> {
-  //   const {signOut} = useAuth();
   const [values, setValues] = useState<useAxios<R>>({
     isLoading: false,
     data: {} as R,
   });
   const session = useSession();
-
-  //   const toast = useToast();
 
   async function makeRequest(
     success?: (data: R) => void,
@@ -80,10 +75,6 @@ export function useAxios<R = any, P = any>(
       method: endPoints[endpoint].method,
       data: data?.body,
       ...(config ?? {
-        // headers: {
-        //   Authorization: `token=${session.data?.backendToken?.token}`,
-        //   // Cookie: `token=${session.data?.backendToken?.token}`,
-        // },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session.data?.backendToken?.token}`,
@@ -98,16 +89,15 @@ export function useAxios<R = any, P = any>(
         setValues({ data: {} as R, isLoading: false });
         error?.(err?.response?.data?.message || err?.message);
 
-        // toast.show({
-        //   title: 'An error occurred',
-        //   description: err?.response?.data?.message || err?.message,
-        // });
-
         if (err?.response?.status === 401) {
           signOut();
         }
       });
   }
+
+  const dependencies = useMemo(() => {
+    return [session.data?.backendToken?.token, ...additionalDependencies];
+  }, [session.data?.backendToken?.token, additionalDependencies]);
 
   useEffect(() => {
     if (runOnMount) {
@@ -117,11 +107,10 @@ export function useAxios<R = any, P = any>(
         payload
       );
     }
-  }, [session.data?.backendToken?.token]);
+  }, dependencies);
 
   return {
     ...values,
-
     makeRequest,
   };
 }
@@ -145,13 +134,53 @@ const endPoints = {
     method: "GET",
     prefix: BASE_URLS.AUTH,
   },
+  MALLS: {
+    url: "/mall/getall",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
+  PRODUCTS_BY_CITY: {
+    url: "/product/getByCity/{cityId}",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
   VENDORS: {
     url: "/user/getVendors",
     method: "GET",
     prefix: BASE_URLS.AUTH,
   },
+  POINTS_OF_INTERESTS_BY_CITYID: {
+    url: "/city/pointerest/getall/{cityId}",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
+  PRODUCTS_BY_CITY_AREA_ID: {
+    url: "/product/filter/getByCityArea/{cityAreaId}",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
+  PRODUCTS_BY_POINT_OF_INTEREST_ID: {
+    url: "/product/filter/getByPointOfInterest/{pointerestId}",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
+  CITY_AREA_BY_CITYID: {
+    url: "/city/areas/getall/{cityId}",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
   SHOPS: {
     url: "/shop/getall",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
+  SHOPS_BY_CITY: {
+    url: "/shop/search/city/{cityId}",
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+  },
+  SHOPS_BY_MallID: {
+    url: "/shop/getall/mall/{mallId}",
     method: "GET",
     prefix: BASE_URLS.AUTH,
   },
@@ -274,6 +303,16 @@ const endPoints = {
     method: "GET",
     prefix: BASE_URLS.AUTH,
     url: "/professional/getallservices",
+  },
+  GET_SERVICE_BY_ID: {
+    method: "GET",
+    prefix: BASE_URLS.AUTH,
+    url: "/professional/service/{id}",
+  },
+  CREATE_SERVICE_ORDER: {
+    method: "POST",
+    prefix: BASE_URLS.AUTH,
+    url: "/professionalOrder/create",
   },
   CREATE_TICKET: {
     method: "POST",

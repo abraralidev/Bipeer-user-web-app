@@ -3,7 +3,7 @@ import { useAxios } from "@/hooks/useAxios";
 import RootLayout from "./layout";
 import GoogleMapReact from "google-map-react";
 import Link from "next/link";
-import Image from 'next/image';
+import Image from "next/image";
 
 const LocationShops = () => {
   const { data } = useAxios("GET_CITIES", true);
@@ -40,12 +40,13 @@ const LocationShops = () => {
 
   return (
     <>
-      
       {userLocation && (
         <div style={{ height: "100vh", width: "100%" }}>
           <GoogleMapReact
-            bootstrapURLKeys={{ key: 'AIzaSyB3VTAihhs6gEYNld1LMwNkEiszH3TRcMQ' }}
-            defaultCenter={{
+            bootstrapURLKeys={{
+              key: "AIzaSyB3VTAihhs6gEYNld1LMwNkEiszH3TRcMQ",
+            }}
+            center={{
               lat: userLocation.latitude,
               lng: userLocation.longitude,
             }}
@@ -59,10 +60,12 @@ const LocationShops = () => {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              {/* <img
+              <Image
                 src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
                 alt="User Location"
-              /> */}
+                width={32}
+                height={32}
+              />
             </div>
 
             {shopsArray &&
@@ -78,34 +81,37 @@ const LocationShops = () => {
                   onMouseEnter={() => setHoveredShop(shop)}
                   onMouseLeave={() => setHoveredShop(null)}
                 >
-                  {/* <img
+                  <Image
                     src="https://maps.google.com/mapfiles/ms/icons/red-dot.png"
                     alt="Shop Location"
-                  /> */}
-                  <Image
-                    src="https://maps.google.com/mapfiles/ms/icons/red-dot.png" // Path to your image file
-                    alt="Shop Location"
-                    width={32} 
-                    height={30} 
+                    width={32}
+                    height={30}
                   />
                   {hoveredShop && hoveredShop.id === shop.id && (
-                    <div style={{
-                      position: 'absolute',
-                      bottom: '20px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      minWidth:'250px',
-                      background: 'white',
-                      fontSize:'18px',
-                      padding: '5px',
-                      borderRadius: '5px',
-                      boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                    }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "20px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        minWidth: "250px",
+                        background: "white",
+                        fontSize: "18px",
+                        padding: "5px",
+                        borderRadius: "5px",
+                        boxShadow: "0px 0px 10px rgba(0,0,0,0.2)",
+                      }}
+                    >
                       <div className="">
                         <Link href={`/vendors/${shop.id}`}>
-                        <p className="block" style={{color:'black',fontWeight:'bolder'}}>{shop.name}</p>
-                        
-                        <p className="block">{shop.address}</p>
+                          <p
+                            className="block"
+                            style={{ color: "black", fontWeight: "bolder" }}
+                          >
+                            {shop.name}
+                          </p>
+
+                          <p className="block">{shop.address}</p>
                         </Link>
                       </div>
                     </div>

@@ -7,9 +7,18 @@ import ProductsCarousel from "@/components/shared/ProductsCarousel";
 import React, { useEffect } from "react";
 import RootLayout from "./layout";
 import { Box } from "@mui/material";
+import CateCarousel from "@/components/categories/categoriesCarousel";
+import CateCarousel2 from "@/components/categories/categoriesCarousel2";
+import { useAxios } from "@/hooks/useAxios";
+import { useUser } from "@/contexts/UserProvider";
 
 const Index = () => {
   // const { t } = initTranslations(locale, ["home"]);
+
+  const { data } = useAxios("CURRENT_PROFILE", true);
+  const { setUser, user } = useUser();
+  setUser(data.customer);
+  console.log("🚀 ~ Index ~ user cityId is *******************:", user?.cityId);
 
   return (
     <>
@@ -20,7 +29,9 @@ const Index = () => {
       >
         <HeroSection />
         <div>
-          <ProductsCarousel title="Internet Base" />
+          <CateCarousel title="" />
+          <ProductsCarousel title="Products" />
+          {/* <CateCarousel2 title={"All categories"} /> */}
           <SaleBanner />
           <BrandCarousel title="All Stores" />
           <ProductsCarousel title="Internet Base" />

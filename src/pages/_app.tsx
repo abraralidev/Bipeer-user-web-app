@@ -12,6 +12,8 @@ import { UserProvider } from "@/contexts/UserProvider";
 import { MessagesProvider } from "@/contexts/ChatMessagesProvider";
 import { useEffect } from "react";
 import { appWithTranslation } from "next-i18next";
+import { FavoritesProvider } from "@/contexts/FavouritesProvider";
+import { ToastContainer } from "react-toastify";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -69,17 +71,32 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
   return (
     <main className={montserrat.className}>
-      {" "}
+      <ToastContainer
+        position="top-left"
+        autoClose={2}
+        hideProgressBar={true}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition: Bounce,
+      />
+      <ToastContainer />{" "}
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <MessagesProvider>
-          <UserProvider>
-            <SessionProvider session={session}>
-              <CartProvider>
-                {getLayout(<Component {...pageProps} />)}
-              </CartProvider>
-            </SessionProvider>
-          </UserProvider>
+          <FavoritesProvider>
+            <UserProvider>
+              <SessionProvider session={session}>
+                <CartProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                </CartProvider>
+              </SessionProvider>
+            </UserProvider>
+          </FavoritesProvider>
         </MessagesProvider>
       </ThemeProvider>
     </main>

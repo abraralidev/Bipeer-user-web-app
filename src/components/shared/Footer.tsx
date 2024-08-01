@@ -75,6 +75,12 @@ const Footer = () => {
           <Link href={"/Location-Shops"}>
             <FooterText title="Shops Near Me" />
           </Link>
+          <Link href={"/categories"}>
+            <FooterText title="All Categories" />
+          </Link>
+          <Link href={"/order"}>
+            <FooterText title="Order History" />
+          </Link>
 
           <Link
             href="/professional"

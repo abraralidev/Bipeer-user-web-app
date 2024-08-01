@@ -53,7 +53,6 @@ const BrandCarousel = ({ title }: BrandCarouselProps) => {
             },
           ]}
           arrows
-          dots
           infinite
           slidesToShow={3}
           autoplay

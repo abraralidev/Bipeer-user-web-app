@@ -2,14 +2,20 @@ import React from "react";
 import UserDetails from "./UserDetails";
 import ChatMessages from "./ChatMessages";
 import MessageForm from "./MessageForm";
+import { Box } from "@mui/material";
 
 const Chat = () => {
   return (
-    <div className="w-full h-full relative">
-      <UserDetails />
-      <ChatMessages />
-      <MessageForm />
-    </div>
+    <Box className="w-full h-full relative">
+      <Box sx={{ minHeight: "73.5vh" }}>
+        <UserDetails />
+        <ChatMessages />
+      </Box>
+
+      <Box>
+        <MessageForm />
+      </Box>
+    </Box>
   );
 };
 

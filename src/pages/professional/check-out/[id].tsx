@@ -11,11 +11,13 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import SelectedGigs from "@/components/professional/SelectedGigs";
-import ProfessionalLayout from "./layout";
+import ProfessionalLayout from "../layout";
 import ProfessionalReview from "@/components/professional/ProfessionalReview";
 import { useAxios } from "@/hooks/useAxios";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
+import { FaPaypal } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const currencyVal = "$";
 
@@ -29,6 +31,7 @@ export default function ProductDetails() {
   const serviceID = params?.id;
   const { makeRequest: getServiceReviews } = useAxios("GET_SERVICE_REVIEWS");
   const { makeRequest: getService } = useAxios("GET_SERVICE_BY_ID");
+  const { makeRequest: creatServiceOrder } = useAxios("CREATE_SERVICE_ORDER");
 
   useEffect(() => {
     getServiceReviews(
@@ -64,6 +67,9 @@ export default function ProductDetails() {
   }, [serviceID]);
   return (
     <div className=" my-4 md:px-44 px-3">
+      <Box textAlign={"center"} my={"3rem"}>
+        <Typography variant="h2">Order Summary</Typography>
+      </Box>
       <Grid container mb={3}>
         <Grid
           className={"yooooooooooooo"}
@@ -75,37 +81,6 @@ export default function ProductDetails() {
           md={6}
         >
           <Grid container>
-            {/* <Grid item md={3}>
-              <div className="space-y-2">
-                <Image
-                  className="rounded-xl"
-                  alt="http://res.cloudinary.com/hnmyc0yl8/image/upload/v1716121083/1716121082540.webp"
-                  src={
-                    "http://res.cloudinary.com/hnmyc0yl8/image/upload/v1716121083/1716121082540.webp"
-                  }
-                  height={320}
-                  width={320}
-                />
-                <Image
-                  className="rounded-xl"
-                  alt="http://res.cloudinary.com/hnmyc0yl8/image/upload/v1716121083/1716121082540.webp"
-                  src={
-                    "http://res.cloudinary.com/hnmyc0yl8/image/upload/v1716121083/1716121082540.webp"
-                  }
-                  height={320}
-                  width={320}
-                />
-                <Image
-                  className="rounded-xl"
-                  alt="http://res.cloudinary.com/hnmyc0yl8/image/upload/v1716121083/1716121082540.webp"
-                  src={
-                    "http://res.cloudinary.com/hnmyc0yl8/image/upload/v1716121083/1716121082540.webp"
-                  }
-                  height={320}
-                  width={320}
-                />
-              </div>
-            </Grid> */}
             <Grid item md={12} mr={2}>
               <Image
                 src={fetchedService?.image}
@@ -121,15 +96,14 @@ export default function ProductDetails() {
         <Grid item ml={3} md={5}>
           <Typography pl={2} fontSize={"25px"} fontWeight={"800"} gutterBottom>
             {fetchedService?.title === ""
-              ? "No Title available for this service"
+              ? "No Title available for this service 99999"
               : fetchedService?.title}
           </Typography>
 
           <Box display={"flex"}>
             <Rating
-              name="half-rating-read"
-              defaultValue={fetchedService?.rating * 1}
-              precision={0.5}
+              name="simple-controlled"
+              value={fetchedService?.rating}
               readOnly
             />
             <Typography>({fetchedService?.rating})</Typography>
@@ -141,9 +115,36 @@ export default function ProductDetails() {
 
           <Typography pl={2} mt={2}>
             {fetchedService?.description === ""
-              ? "no description available for this service"
+              ? "no description available for this service 99999"
               : fetchedService?.description}
           </Typography>
+
+          <Box mt={"20px"}>
+            <Typography fontSize={"1.7rem"}>Payment Methods</Typography>
+            <Button
+              variant="outlined"
+              size="medium"
+              sx={{
+                px: {
+                  md: "5rem",
+                  xs: 2,
+                  sm: 0.5,
+                },
+                py: {
+                  md: 1,
+                  xs: 1,
+                  sm: 0.5,
+                },
+                backgroundColor: "#293cc9",
+                borderRadius: "25px",
+              }}
+              onClick={() => {
+                router.push(`/profesional/checkout/${serviceID}`);
+              }}
+            >
+              <FaPaypal />
+            </Button>
+          </Box>
 
           <Box
             pl={2}
@@ -172,10 +173,34 @@ export default function ProductDetails() {
                   borderRadius: "25px",
                 }}
                 onClick={() => {
-                  router.push(`/professional/check-out/${serviceID}`);
+                  //   toast.success("Booked Service Successfully");
+                  //   toast("hello");
+                  creatServiceOrder(
+                    (res) => {
+                      if (res) {
+                        toast.success("Booked Service Successfully");
+                        router.push(`/professional/${serviceID}`);
+                      }
+                    },
+                    (err) => {
+                      console.log(err);
+                      toast.error("something Went Wrong");
+                    },
+                    {
+                      body: {
+                        totalAmount: fetchedService?.price,
+                        serviceId: serviceID,
+                        payment: {
+                          currency: "Dollar",
+                          status: "UNPAID",
+                          type: "COD",
+                        },
+                      },
+                    }
+                  );
                 }}
               >
-                Book Me
+                Check Out
               </Button>
             </Box>
           </Box>
@@ -184,7 +209,7 @@ export default function ProductDetails() {
 
       <ProfessionalReview reviews={reviews} />
 
-      <SelectedGigs title="Related Services" />
+      {/* <SelectedGigs title="Related Services" /> */}
     </div>
   );
 }

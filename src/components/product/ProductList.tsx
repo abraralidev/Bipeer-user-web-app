@@ -6,6 +6,8 @@ import ProductsCards from "./ProductCards";
 const ProductList = ({ products }) => {
   const [open, setOpen] = React.useState(false);
 
+  console.log("products in list are", products);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -44,6 +46,11 @@ const ProductList = ({ products }) => {
             <Box display={{ xs: "none", md: "block" }}>{filters}</Box>
           </Grid>
           <Grid item xs={12} md={9}>
+            {products && products?.length === 0 && (
+              <Typography align="center" variant="h6">
+                There are no Products
+              </Typography>
+            )}
             {products && products.products?.length !== 0 ? (
               <ProductsCards products={products} />
             ) : (

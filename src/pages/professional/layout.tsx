@@ -1,19 +1,19 @@
-import Footer from "@/components/shared/Footer"
-import Header from "@/components/shared/Header"
-import Navbar from "@/components/shared/Navbar"
+import Footer from "@/components/shared/Footer";
+import Header from "@/components/shared/Header";
+import Navbar from "@/components/shared/Navbar";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProfessionalLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode,
+  children: React.ReactNode;
 }) {
-
-    return (
-        <main >
-            <Header />
-            <Navbar />
-            {children}
-            <Footer />
-        </main>
-    )
+  return (
+    <main>
+      <Header />
+      <Navbar />
+      {children}
+      <Footer />
+    </main>
+  );
 }
